@@ -48,13 +48,8 @@ jobs:
             . venv/bin/activate
             python test_fizzbuzz.py
 
-    - run: 
-      name: run static analysis
-      command: |
-          . venv/bin/activate
-          flake8 test_fizzbuzz.py
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
-          
+      - run: 
+          name: run static analysis
+          command: |
+            . venv/bin/activate
+            flake8 test_fizzbuzz.py
