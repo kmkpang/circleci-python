@@ -37,6 +37,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - restore_cache:
+          keys:
+            - pv-deps-{{ checksum "requirements.txt" }}
       - run: 
           name: run static analysis
           command: |
@@ -48,6 +51,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - restore_cache:
+          keys:
+            - pv-deps-{{ checksum "requirements.txt" }}
       - run:
           name: run tests
           command: |
