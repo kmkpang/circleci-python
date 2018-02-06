@@ -10,14 +10,14 @@ jobs:
     steps:
       - checkout
       - persist_to_workspece:
-        root: . 
-        paths: .
+          root: . 
+          paths: .
 
   python_dependencies:
     <<: *defaults
     steps:
       - attach_workspace:
-        at: .
+          at: .
       - restore_cache:
           keys:
           - pv-deps-{{ checksum "requirements.txt" }}
