@@ -1,55 +1,70 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
+defaults: &defaults
+  working_directory: ~/circleci-python
+  docker:
+      - image: circleci/python:3.6.1
+
 version: 2
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/circleci-python
-
+  checkout_code:
+    <<: *defaults
     steps:
       - checkout
+      - persist_to_workspece:
+        root: . 
+        paths: .
 
-      # Download and cache dependencies
+  python_dependencies:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+        at: .
       - restore_cache:
           keys:
           - pv-deps-{{ checksum "requirements.txt" }}
-          
       - run:
           name: install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-
       - save_cache:
           paths:
             - ./venv
           key: pv-deps-{{ checksum "requirements.txt" }}
-        
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
+
+  python_dependencies:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+        at: .
+      - run: 
+          name: run static analysis
+          command: |
+            . venv/bin/activate
+            flake8 test_fizzbuzz.py
+
+  python_dependencies:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+        at: .
       - run:
           name: run tests
           command: |
             . venv/bin/activate
             python test_fizzbuzz.py
 
-      - run: 
-          name: run static analysis
-          command: |
-            . venv/bin/activate
-            flake8 test_fizzbuzz.py
+workflows:
+  version: 2
+    circleci_python_workshop_pipeline:
+      jobs:
+        - checkout_code
+        - python_dependencies:
+            requires:
+              - checkout_dependencies
+        - static_dependencies:
+            requires:
+              - python_dependencies
+        - unit_tests:
+            requires:
+              - python_deprndencies
