@@ -56,15 +56,15 @@ jobs:
 
 workflows:
   version: 2
-    circleci_python_workshop_pipeline:
-      jobs:
-        - checkout_code
-        - python_dependencies:
-            requires:
-              - checkout_dependencies
-        - static_dependencies:
-            requires:
-              - python_dependencies
-        - unit_tests:
-            requires:
-              - python_deprndencies
+  circleci_python_workshop_pipeline:
+    jobs:
+      - checkout_code
+      - python_dependencies:
+          requires:
+            - checkout_dependencies
+      - static_dependencies:
+          requires:
+            - python_dependencies
+      - unit_tests:
+          requires:
+            - python_deprndencies
