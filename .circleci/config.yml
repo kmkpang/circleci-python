@@ -36,7 +36,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-        at: .
+          at: .
       - run: 
           name: run static analysis
           command: |
@@ -47,7 +47,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-        at: .
+          at: .
       - run:
           name: run tests
           command: |
