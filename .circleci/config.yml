@@ -32,7 +32,7 @@ jobs:
             - ./venv
           key: pv-deps-{{ checksum "requirements.txt" }}
 
-  python_dependencies:
+  static_dependencies:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -43,7 +43,7 @@ jobs:
             . venv/bin/activate
             flake8 test_fizzbuzz.py
 
-  python_dependencies:
+  unit_tests:
     <<: *defaults
     steps:
       - attach_workspace:
