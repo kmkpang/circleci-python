@@ -67,4 +67,4 @@ workflows:
             - python_dependencies
       - unit_tests:
           requires:
-            - static_deprndencies
+            - static_dependencies
