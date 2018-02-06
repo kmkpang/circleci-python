@@ -24,9 +24,7 @@ jobs:
       - restore_cache:
           keys:
           - pv-deps-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
+          
       - run:
           name: install dependencies
           command: |
